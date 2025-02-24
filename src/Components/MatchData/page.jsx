@@ -40,13 +40,13 @@ const MatchData = () => {
               // If the team does not exist in the accumulator, push it
               if (!existingTeam) {
                 acc.push(team);
-                // Initialize player_photos if chicken === 1
-                if (team.chicken === 1) {
+                // Initialize player_photos based on total_points
+                if (team.total_points) {
                   team.player_photos = [team.player_photo]; // Start player_photos with the first player's photo
                 }
               } else {
-                // If team exists and chicken === 1, group the player photo
-                if (team.chicken === 1) {
+                // If team exists, group the player photo based on total_points
+                if (team.total_points) {
                   if (!existingTeam.player_photos) {
                     existingTeam.player_photos = [];
                   }
@@ -162,13 +162,14 @@ const MatchData = () => {
                           {index + 1}
                         </div>
                         <div className="flex">
-                          {team.chicken === 1 &&
+                          {team.total_points ===
+                            Math.max(...matchData.map((t) => t.total_points)) &&
                           team.player_photos &&
                           team.player_photos.length > 0
                             ? team.player_photos.map((photo, index) => (
                                 <div
                                   key={index}
-                                  className="w-[250px] h-[350px] relative top-[5px] right-[0px] z-0"
+                                  className="w-[340px] h-[300px] relative top-[56px] right-[30px] z-0 mr-[-120px]"
                                 >
                                   <img
                                     src={
@@ -180,7 +181,7 @@ const MatchData = () => {
                                   />
                                 </div>
                               ))
-                            : // Show 4 default player photos if no player photos are available
+                            : // Show default player photos if no player photos are available
                               Array(4)
                                 .fill(null)
                                 .map((_, index) => (
