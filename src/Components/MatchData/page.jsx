@@ -32,8 +32,27 @@ const MatchData = () => {
           const uniqueData = data.match_info
             .filter((team) => !team.player_rank) // Exclude rows where player_rank is truthy
             .reduce((acc, team) => {
-              if (!acc.some((item) => item.team_name === team.team_name)) {
+              // Check if the team already exists in the accumulator
+              const existingTeam = acc.find(
+                (item) => item.team_name === team.team_name
+              );
+
+              // If the team does not exist in the accumulator, push it
+              if (!existingTeam) {
                 acc.push(team);
+                // Initialize player_photos if chicken === 1
+                if (team.chicken === 1) {
+                  team.player_photos = [team.player_photo]; // Start player_photos with the first player's photo
+                }
+              } else {
+                // If team exists and chicken === 1, group the player photo
+                if (team.chicken === 1) {
+                  if (!existingTeam.player_photos) {
+                    existingTeam.player_photos = [];
+                  }
+                  // Push the player photo of the current player into player_photos
+                  existingTeam.player_photos.push(team.player_photo);
+                }
               }
               return acc;
             }, []);
@@ -142,55 +161,40 @@ const MatchData = () => {
                         <div className="text-[80px] relative left-[15px] mb-[-122px]">
                           {index + 1}
                         </div>
-                        <div className="flex left-[20px] relative bottom-[20px]">
-                          <div>
-                            <div className="w-[400px] h-[250px] relative top-[46px] right-[60px] z-0">
-                              <img
-                                src={
-                                  team.player_photo ||
-                                  "https://res.cloudinary.com/dqckienxj/image/upload/v1735762279/defult_chach_apsjhc_dwnd7n.png"
-                                }
-                                alt=""
-                                className=""
-                              />
-                            </div>
-                          </div>
-                          <div>
-                            <div className="w-[400px] h-[250px] relative top-[46px] right-[250px] z-10">
-                              <img
-                                src={
-                                  team.player_photo ||
-                                  "https://res.cloudinary.com/dqckienxj/image/upload/v1735762279/defult_chach_apsjhc_dwnd7n.png"
-                                }
-                                alt=""
-                                className=""
-                              />
-                            </div>
-                          </div>
-                          <div>
-                            <div className="w-[400px] h-[250px] relative top-[46px] right-[440px] z-0">
-                              <img
-                                src={
-                                  team.player_photo ||
-                                  "https://res.cloudinary.com/dqckienxj/image/upload/v1735762279/defult_chach_apsjhc_dwnd7n.png"
-                                }
-                                alt=""
-                                className=""
-                              />
-                            </div>
-                          </div>
-                          <div>
-                            <div className="w-[400px] h-[250px] relative top-[46px] right-[640px] z-10">
-                              <img
-                                src={
-                                  team.player_photo ||
-                                  "https://res.cloudinary.com/dqckienxj/image/upload/v1735762279/defult_chach_apsjhc_dwnd7n.png"
-                                }
-                                alt=""
-                                className=""
-                              />
-                            </div>
-                          </div>
+                        <div className="flex">
+                          {team.chicken === 1 &&
+                          team.player_photos &&
+                          team.player_photos.length > 0
+                            ? team.player_photos.map((photo, index) => (
+                                <div
+                                  key={index}
+                                  className="w-[250px] h-[350px] relative top-[5px] right-[0px] z-0"
+                                >
+                                  <img
+                                    src={
+                                      photo ||
+                                      "https://res.cloudinary.com/dqckienxj/image/upload/v1735762279/defult_chach_apsjhc_dwnd7n.png"
+                                    }
+                                    alt={`Player ${index + 1}`}
+                                    className="w-full h-full"
+                                  />
+                                </div>
+                              ))
+                            : // Show 4 default player photos if no player photos are available
+                              Array(4)
+                                .fill(null)
+                                .map((_, index) => (
+                                  <div
+                                    key={index}
+                                    className="w-[340px] h-[300px] relative top-[56px] right-[30px] z-0 mr-[-120px]"
+                                  >
+                                    <img
+                                      src="https://res.cloudinary.com/dqckienxj/image/upload/v1735762279/defult_chach_apsjhc_dwnd7n.png"
+                                      alt={`Default Player ${index + 1}`}
+                                      className="w-full h-full"
+                                    />
+                                  </div>
+                                ))}
                         </div>
                       </div>
                       <div className="flex ">

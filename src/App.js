@@ -6,7 +6,7 @@ import Lower from "./Components/lower/page";
 import OverallStats from "./Components/LiveStats/OverAllStats";
 import Overall from "./Components/OverallData/Page";
 import Slotlist from "./Components/Slotlist/page";
-
+import Tdm from "./Components/Slotlist/Tdm";
 import Schedule from "./Components/MatchData/Schedule/Schedule";
 import PlayingTeams from "./Components/Slotlist/playingTeam";
 import Alerts from "./Components/Alerts/Alerts";
@@ -42,6 +42,7 @@ function Comps() {
       <Route path="/LiveStats" element={<DisplayControl />} />
       <Route path="/Roster" element={<Roster />} />
       <Route path="/slotlist" element={<Slotlist />} />
+      <Route path="/Tdm" element={<Tdm />} />
     </Routes>
   );
 }
