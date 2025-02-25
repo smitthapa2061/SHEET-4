@@ -3,8 +3,8 @@ import axios from "axios";
 import "../Slotlist/playing.css";
 
 // Google Sheets API Key and Spreadsheet details
-const apiKey = "AIzaSyBd_goawSN9ikX7mqdW0r4H4WrH3T7eBEw"; // Your Google Sheets API key
-const spreadsheetId = "1LeFzBRavciItt15hqSjrJn81O2eNpKa0a0-LQG3fwwQ"; // Your Google Sheets ID
+const apiKey = "AIzaSyCQDNN_uTOoni7xB-doWE2wGk-D5xnGa_w"; // Your Google Sheets API key
+const spreadsheetId = "1RhyEWepcXa1hF6mzw6fiRSfQdQM4dJ6q9Zl_REEN934"; // Your Google Sheets ID
 const range = "SlotList!A1:E21"; // Include column D in the range
 
 const PlayingTeams = () => {
